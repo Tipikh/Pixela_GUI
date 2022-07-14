@@ -1,12 +1,12 @@
-from tkinter import Tk, Frame, Label, StringVar
+from tkinter import Tk, Frame
 from tkinter import font as tkfont
-from user_pages import LoginPage, CreateAccountPage, WelcomePage, DeleteAccountPage
+from user_pages import LoginPage, CreateAccountPage, WelcomePage, DeleteAccountPage, UserPage
 from graph_pages import GraphPage, UpdatePage
 from tkinter import ttk, messagebox
 import my_funcs
 
 
-class Control(Tk):
+class Controller(Tk):
     """
     A class for managing the GUI frames
     Children of the Tk class from tkinter
@@ -76,7 +76,7 @@ class Control(Tk):
             self.frames[page_name] = frame
             frame.grid(row=0, column=0, sticky="nsew")
 
-        self.show_frame("UsernamePage")
+        self.show_frame("WelcomePage")
 
     def show_frame(self, page_name):
         if page_name == 'UpdatePage' and len(self.data) == 0:
@@ -90,9 +90,9 @@ class Control(Tk):
             frame = self.frames[page_name]
             self.update_combobox()
 
-            if page_name == 'HomePage':
-                self.frames['HomePage'].link_var.set(f"https://pixe.la/@{self.current_user}")
-                self.frames['HomePage'].greeting_text.set(f"Hello {self.current_user} !")
+            if page_name == 'UserPage':
+                self.frames['UserPage'].link_var.set(f"https://pixe.la/@{self.current_user}")
+                self.frames['UserPage'].greeting_text.set(f"Hello {self.current_user} !")
 
             elif page_name == 'UpdatePage':
                 unit_name = my_funcs.get_unit_from_name(self.frames['UpdatePage'].chose_graph_combo.get(), self.data)
@@ -121,55 +121,6 @@ class Control(Tk):
         self.data = my_funcs.get_user_data(self.current_user, self.current_user_password)
 
 
-class UserPage(Frame):
-    """ 
-    A frame whith 3 buttons, one to change the user, one to create 
-    a new graph and one to update an existing graph
-    Also contain a link to the user's Pixela page
-    """
-
-    def __init__(self, parent, controller):
-        Frame.__init__(self, parent)
-        self.controller = controller
-        self.link_var = StringVar()
-        self.greeting_text = StringVar()
-
-        # Greetings label
-        greetings = ttk.Label(self, textvariable=self.greeting_text,
-                              foreground='#393E46', font=self.controller.font, anchor='center')
-        greetings.grid(row=0, column=1, padx=10, pady=15)
-
-        # Greetings next label
-        greetings_2 = ttk.Label(self, text="What do you want to do ?",
-                                foreground='#393E46', font=self.controller.font, anchor='center')
-        greetings_2.grid(row=1, column=1, padx=10, pady=15)
-
-        # Change User Button
-        change_user_button = ttk.Button(self, text="Change User", command=lambda: controller.show_frame('UsernamePage'),
-                                        style='Accentbutton')
-        change_user_button.grid(row=2, column=1, ipadx=22, ipady=10, padx=10, pady=15)
-
-        # Graph Page Button
-        graph_button = ttk.Button(self, text="Create Graph", command=lambda: controller.show_frame('GraphPage'),
-                                  style='Accentbutton')
-        graph_button.grid(row=3, column=1, ipadx=20, ipady=10, padx=10, pady=15)
-
-        # Update Graph Page Button
-        update_button = ttk.Button(self, text="Update Graphs", command=lambda: controller.show_frame('UpdatePage'),
-                                   style='Accentbutton')
-        update_button.grid(row=4, column=1, ipadx=12, ipady=10, padx=10, pady=15)
-
-        # Visit label
-        visit_label = ttk.Label(self, text='Visit your page :')
-        visit_label.grid(column=1, row=5, padx=10, pady=(20, 0))
-
-        # Link to the user's page
-        link1 = Label(self, textvariable=self.link_var, fg='blue', cursor="hand2")
-        link1.grid(row=6, column=1, ipadx=10, ipady=10, padx=10, pady=(0, 10))
-        link1.bind("<Button-1>", lambda e: my_funcs.callback(f"https://pixe.la/@{self.controller.current_user}"))
-
-
-
 if __name__ == "__main__":
-    app = Control()
+    app = Controller()
     app.mainloop()

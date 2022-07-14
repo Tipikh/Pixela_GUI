@@ -1,6 +1,6 @@
-from tkinter import *
+from tkinter import Frame, StringVar
 from tkinter import ttk, messagebox
-from tkcalendar import *
+from tkcalendar import DateEntry
 from datetime import date
 import my_funcs
 import random
@@ -48,7 +48,7 @@ class GraphPage(Frame):
         create_button.grid(column=1, row=5, columnspan=2, padx=10, pady=10)
 
         # Go Back Button
-        back_button = ttk.Button(self, text="Go Back", command=lambda: controller.show_frame('HomePage'),
+        back_button = ttk.Button(self, text="Go Back", command=lambda: controller.show_frame('UserPage'),
                                  style='Accentbutton')
         back_button.grid(row=7, column=1, columnspan=2, padx=10, pady=10)
 
@@ -125,7 +125,7 @@ class UpdatePage(Frame):
         back_button.grid(row=5, column=2, columnspan=1, padx=10, pady=10)
 
         # Go Back Button
-        back_button = ttk.Button(self, text="Go Back", command=lambda: controller.show_frame('HomePage'),
+        back_button = ttk.Button(self, text="Go Back", command=lambda: controller.show_frame('UserPage'),
                                  style='Accentbutton')
         back_button.grid(row=6, column=2, columnspan=1, padx=10, pady=10)
 
@@ -169,13 +169,21 @@ class UpdatePage(Frame):
         graph = self.chose_graph_combo.get()
         graph_id = my_funcs.get_graph_id_from_name(graph, self.controller.data)
         response = my_funcs.delete_graph(username, password, graph_id)
-        if response['isSuccess']:
-            self.controller.update_data()
-            self.controller.update_combobox()
-            messagebox.showinfo(title='Success !', message=f'The graph "{graph}" has been successfully deleted !')
+
+        answer = messagebox.askyesno(title='Are you sure ?',
+                                     message=f'You are about to delete the "{graph}" graph'
+                                             f", are you sure ? ")
+        if answer:
+            if response['isSuccess']:
+                self.controller.update_data()
+                self.controller.update_combobox()
+                messagebox.showinfo(title='Success !', message=f'The graph "{graph}" has been successfully deleted !')
+
+            else:
+                messagebox.showerror(title='Error', message=f"{response['message']}")
 
         else:
-            messagebox.showerror(title='Error', message=f"{response['message']}")
+            messagebox.showinfo(title='Info', message="No graph has been deleted")
 
     def update_unit(self):
         """ Method that set the "unit_var" attribute in order to
