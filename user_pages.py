@@ -1,8 +1,6 @@
-from tkinter import Frame, Label, StringVar
+from tkinter import Frame, Label, StringVar, IntVar
 from tkinter import ttk, messagebox
 import my_funcs
-from tkinter import font as tkfont
-
 
 class WelcomePage(Frame):
     """
@@ -50,7 +48,7 @@ class UserPage(Frame):
 
         # Greetings label
         greetings = ttk.Label(self, textvariable=self.greeting_text,
-                              foreground='#393E46', font=self.controller.font, anchor='center')
+                              foreground='#393E46', font=self.controller.title_font, anchor='center')
         greetings.grid(row=0, column=1, padx=10, pady=15)
 
         # Greetings next label
@@ -152,6 +150,7 @@ class CreateAccountPage(Frame):
     def __init__(self, parent, controller):
         Frame.__init__(self, parent)
         self.controller = controller
+        self.checkbox_var = IntVar()
 
         # Header Label
         self.header_label = ttk.Label(self, width=20, text="Create an account", foreground='#393E46',
@@ -171,32 +170,47 @@ class CreateAccountPage(Frame):
         self.password_entry = ttk.Entry(self, width=20)
         self.password_entry.grid(column=2, row=2, padx=10, pady=10)
 
-        # Create Button
+        # ToS Checkbox
+        self.tos_checkbox = ttk.Checkbutton(self, cursor="hand2", var=self.checkbox_var)
+        self.tos_checkbox.grid(column=1, columnspan=3, row=3, sticky='W', padx=(80, 10), pady=10)
+        tos_text = ttk.Label(self, text='I agree to the')
+        tos_text.grid(column=1, columnspan=3, row=3, sticky='W', padx=(120, 10), pady=(10,15))
+        tos_link = ttk.Label(self, text="terms of service", foreground='blue', cursor="hand2")
+        tos_link.grid(column=1, columnspan=3, row=3, padx=(170, 0), pady=(10,15))
+        tos_link.bind("<Button-1>", lambda e: my_funcs.callback(f"https://github.com/a-know/Pixela/wiki/Terms-of-Service"))
+
+
+        # Create Account Button
         create_button = ttk.Button(self, text="Create account", command=self.create_account,
                                    style='Accentbutton')
-        create_button.grid(column=1, row=3, columnspan=2, padx=10, pady=10)
+        create_button.grid(column=1, row=4, columnspan=2, padx=10, pady=10)
 
         # Back Home Button
         back_button = ttk.Button(self, text="Go Back", command=lambda: controller.show_frame('WelcomePage'),
                                  style='Accentbutton')
-        back_button.grid(column=1, row=4, columnspan=2, padx=10, pady=10)
+        back_button.grid(column=1, row=5, columnspan=2, padx=10, pady=10)
 
     def create_account(self):
         password = self.password_entry.get()
         username = self.username_entry.get()
 
         if my_funcs.check_username_password(username, password):
-            params = my_funcs.format_user_params(password=password, username=username)
-            response = my_funcs.create_account_request(params=params)
+            if self.checkbox_var.get() == 1:
+                params = my_funcs.format_user_params(password=password, username=username)
+                response = my_funcs.create_account_request(params=params)
 
-            if response['isSuccess']:
-                messagebox.showinfo(title="Congrats", message=f"{response['message']}")
-                self.controller.current_user = username
-                self.controller.current_user_password = password
-                self.controller.data = {}
-                self.controller.show_frame('UserPage')
+                if response['isSuccess']:
+                    messagebox.showinfo(title="Congrats", message=f"{response['message']}")
+                    self.controller.current_user = username
+                    self.controller.current_user_password = password
+                    self.controller.data = {}
+                    self.controller.show_frame('UserPage')
+                else:
+                    messagebox.showerror(title='Error', message=f"{response['message']}")
             else:
-                messagebox.showerror(title='Error', message=f"{response['message']}")
+                messagebox.showerror(title='Error', message=f"You must accept the terms of service")
+
+
         else:
             messagebox.showerror(title='Error', message="Please don't leave any empty field")
 
@@ -242,10 +256,10 @@ class DeleteAccountPage(Frame):
         if my_funcs.check_username_password(username, password):
 
             # Asks for confirmation
-            answer = messagebox.askyesno(title='Are you sure ?',
-                                         message=f"You are about to delete the {username} account"
-                                                 f", are you sure ? ")
-            if answer:
+            confirm = messagebox.askyesno(title='Are you sure ?',
+                                          message=f"You are about to delete the {username} account"
+                                                  f", are you sure ? ")
+            if confirm:
                 response = my_funcs.delete_account(username, password)
                 if response:
                     if response['isSuccess']:

@@ -147,6 +147,7 @@ class UpdatePage(Frame):
         quantity = self.amount_entry.get()
         my_date = self.calendar.get_date().strftime('%Y%m%d')
 
+        # Check that the selected date isn't in the future
         if int(my_date) > int(date.today().strftime('%Y%m%d')):
             messagebox.showerror(title='Error', message=f"Time travel is not available yet !")
 
@@ -170,10 +171,10 @@ class UpdatePage(Frame):
         graph_id = my_funcs.get_graph_id_from_name(graph, self.controller.data)
         response = my_funcs.delete_graph(username, password, graph_id)
 
-        answer = messagebox.askyesno(title='Are you sure ?',
-                                     message=f'You are about to delete the "{graph}" graph'
-                                             f", are you sure ? ")
-        if answer:
+        confirm = messagebox.askyesno(title='Are you sure ?',
+                                      message=f'You are about to delete the "{graph}" graph'
+                                              f", are you sure ? ")
+        if confirm:
             if response['isSuccess']:
                 self.controller.update_data()
                 self.controller.update_combobox()

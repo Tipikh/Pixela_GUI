@@ -105,8 +105,6 @@ class Controller(Tk):
         This function update the combobox in the UpdatePage
         to ensure that newly created graphs are displayed in it 
         """
-        
-        print("J'exécute update_combobox")
 
         graph_list = [graph for graph in self.data.keys()]
         graph_names_list = [self.data[graphe]['name'] for graphe in graph_list]

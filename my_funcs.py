@@ -1,6 +1,4 @@
 import requests
-from datetime import date
-import random
 import json
 import webbrowser
 
@@ -116,8 +114,6 @@ def get_graph_id_from_name(graph_name, data):
         if data[graph]['name'] == graph_name:
             return data[graph]['id']
 
-    raise KeyError("There is a problem, send an email to thibautp10@hotmail.fr !")
-
 
 def get_unit_from_name(graph_name, data):
     """
@@ -128,8 +124,6 @@ def get_unit_from_name(graph_name, data):
         if data[graph]['name'] == graph_name:
             return data[graph]['unit']
 
-    #raise KeyError("There is a problem, send an email to thibautp10@hotmail.fr !")
-
 
 def create_graph_id(data):
     """Generate a graph id"""
@@ -139,6 +133,7 @@ def create_graph_id(data):
     my_graph_id = f"{my_id}{graph_number}"
     return my_graph_id
 
+
 def delete_graph(username, password, graph_id):
     url = f"{PIXELA_ENDPOINT}/{username}/graphs/{graph_id}"
     header = {"X-USER-TOKEN": password}
@@ -147,10 +142,13 @@ def delete_graph(username, password, graph_id):
 
 
 def callback(url):
+    """ Open the url link in a web browser"""
     webbrowser.open_new(url)
 
-def callback_unit(event, var, value):
-    var.set(value)
+
+def callback_unit(event, variable, value):
+    """ Set the var value when the event is triggered """
+    variable.set(value)
 
 
 def check_entry(entry):
@@ -158,18 +156,10 @@ def check_entry(entry):
     for char in forbidden_char:
         if char in entry:
             return False
-        else: return True
+        else:
+            return True
 
 
-def load_json(name):
-    with open(name, 'r') as data_file:
-        my_data = json.load(data_file)
-    return my_data
-
-
-def save_json(json_obj, name):
-    with open(name, 'w') as data_file:
-        json.dump(json_obj, data_file, indent=4)
 
 
 def check_username_password(username, password):
