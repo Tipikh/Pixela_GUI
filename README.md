@@ -1,3 +1,5 @@
 # Pixela GUI
 
-A simple graphical interface based on tkinter for the Pixela API 
+A simple GUI based on tkinter for the Pixela's habit tracking API
+
+
