@@ -1,5 +1,4 @@
 import requests
-import json
 import webbrowser
 
 PIXELA_ENDPOINT = "https://pixe.la/v1/users"

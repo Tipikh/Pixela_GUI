@@ -1,5 +1,4 @@
-from tkinter import Frame, StringVar
-from tkinter import ttk, messagebox
+from tkinter import Frame, StringVar, ttk, messagebox
 from tkcalendar import DateEntry
 from datetime import date
 import my_funcs

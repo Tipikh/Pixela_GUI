@@ -1,8 +1,6 @@
-from tkinter import Tk, Frame
-from tkinter import font as tkfont
+from tkinter import Tk, Frame, ttk, messagebox, font as tkfont
 from user_pages import LoginPage, CreateAccountPage, WelcomePage, DeleteAccountPage, UserPage
 from graph_pages import GraphPage, UpdatePage
-from tkinter import ttk, messagebox
 import my_funcs
 
 

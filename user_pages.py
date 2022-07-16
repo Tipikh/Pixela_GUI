@@ -1,5 +1,4 @@
-from tkinter import Frame, Label, StringVar, IntVar
-from tkinter import ttk, messagebox
+from tkinter import Frame, Label, StringVar, IntVar, ttk, messagebox
 import my_funcs
 
 class WelcomePage(Frame):
