@@ -187,7 +187,7 @@ class UpdatePage(Frame):
 
     def update_unit(self):
         """ Method that set the "unit_var" attribute in order to
-        update the displayed unit on the graph page """
+        update the displayed unit name on the graph page """
 
         unit_name = my_funcs.get_unit_from_name(self.chose_graph_combo.get(), self.controller.data)
         self.unit_var.set(unit_name)

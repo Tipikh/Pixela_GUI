@@ -1,6 +1,7 @@
 from tkinter import Frame, Label, StringVar, IntVar, ttk, messagebox
 import my_funcs
 
+
 class WelcomePage(Frame):
     """
     A frame with three buttons, where the user can chose to log in,

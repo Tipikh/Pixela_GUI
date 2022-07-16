@@ -159,8 +159,6 @@ def check_entry(entry):
             return True
 
 
-
-
 def check_username_password(username, password):
     """ Check if the username and password are not 
     empty and does not inclue a space """
