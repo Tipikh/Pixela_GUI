@@ -126,7 +126,6 @@ class LoginPage(Frame):
         # Check that the user doesn't leave an empty field
         if my_funcs.check_username_password(username, password):
             self.controller.current_user = username
-            print(self.controller.current_user)
             self.controller.current_user_password = password
             self.controller.data = my_funcs.get_user_data(username, password)
 
