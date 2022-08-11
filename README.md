@@ -12,7 +12,7 @@ Pixela is an API based habit tracker that allows you to create graphs like this 
 </p>
 
 
-One graph corresponds to one habit and each "pixel" corresponds to one day. For exemple you can create a graph "Running" where you'll put the number of km you ran everytime you go to run. 
+One graph = one habit and one "pixel" = one day. For exemple you can create a graph "Running" where you'll put the number of km you ran everytime you go to run. 
 
 
 
