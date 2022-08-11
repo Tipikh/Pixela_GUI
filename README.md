@@ -30,6 +30,23 @@ Also as I am trying to build good long term habits I thought it would be a good 
 * Project structure and organisation 
 * GitHub
 
+# Requirements
+
+- Python ≥ 3.6
+
+# Installation
+
+First install the required packages 
+
+```bash
+pip3 install -r requirements.txt 
+```
+
+Then you can do 
+
+```bash
+python3 main.py
+```
  
 
 ## How to use the App
